@@ -71,48 +71,43 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// ========== CONTACT FORM HANDLER ==========
+// ========== CONTACT FORM HANDLER (FORMSPREE AJAX VERSION) ========== 
 const contactForm = document.getElementById('contactForm');
 const formMessage = document.getElementById('formMessage');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
+    contactForm.addEventListener('submit', async function (e) {
         e.preventDefault();
-        
+
         const formData = new FormData(contactForm);
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.innerHTML;
-        
-        // Disable button and show loading state
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        
+        formMessage.style.display = 'none';
+
         try {
-            const response = await fetch('/send-email', {
+            const response = await fetch(contactForm.action, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: { 'Accept': 'application/json' }
             });
-            
-            const data = await response.json();
-            
-            if (data.success) {
+            if (response.ok) {
                 formMessage.className = 'form-message success';
-                formMessage.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
+                formMessage.textContent = '✓ Message submitted successfully!';
+                formMessage.style.display = 'block';
                 contactForm.reset();
             } else {
-                throw new Error(data.message || 'Failed to send message');
+                throw new Error('Network response was not ok.');
             }
         } catch (error) {
             formMessage.className = 'form-message error';
-            formMessage.textContent = '✗ Failed to send message. Please email me directly at himikajain2110@gmail.com';
+            formMessage.textContent = '✗ Failed to submit. Please try again or email directly.';
+            formMessage.style.display = 'block';
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalBtnText;
-            
-            // Hide message after 6 seconds
-            setTimeout(() => {
-                formMessage.style.display = 'none';
-            }, 6000);
+            setTimeout(() => { formMessage.style.display = 'none'; }, 6000);
         }
     });
 }
