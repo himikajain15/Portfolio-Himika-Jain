@@ -1,3 +1,4 @@
+
 # Himika Jain - Portfolio Website
 
 A modern, fully scrollable single-page portfolio showcasing professional experience, projects, and skills.

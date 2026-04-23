@@ -94,7 +94,7 @@ if (contactForm) {
             });
             if (response.ok) {
                 formMessage.className = 'form-message success';
-                formMessage.textContent = '✓ Message submitted successfully!';
+                formMessage.textContent = 'Message submitted successfully!';
                 formMessage.style.display = 'block';
                 contactForm.reset();
             } else {
@@ -102,7 +102,7 @@ if (contactForm) {
             }
         } catch (error) {
             formMessage.className = 'form-message error';
-            formMessage.textContent = '✗ Failed to submit. Please try again or email directly.';
+            formMessage.textContent = 'Failed to submit. Please try again or email directly.';
             formMessage.style.display = 'block';
         } finally {
             submitBtn.disabled = false;
@@ -116,3 +116,4 @@ if (contactForm) {
 document.querySelector('.logo').addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
